@@ -4,11 +4,20 @@ import time
 import os
 import sys
 
+from selenium.webdriver.firefox.options import Options
+
+
 # Llista de contrasenyes (segons enunciat)
 passwords = ['1234', 'qwerty', 'admin', 'password123', 'letmein']
 
-# Obrim navegador (mode visible)
-driver = webdriver.Firefox()
+# Obrim navegador (mode headless)
+
+
+options = Options()
+options.add_argument("--headless")
+
+driver = webdriver.Firefox(options=options)
+
 
 # Obrim el fitxer login.html local
 file_path = "file://" + os.path.abspath("login.html")
@@ -46,7 +55,7 @@ for pwd in passwords:
         driver.save_screenshot("hacked.png")
         print("VULNERABILITAT TROBADA")
         driver.quit()
-        sys.exit(0)
+        sys.exit(1)	#fer fallar la pipeline
 
 # Si no s'ha trobat cap password
 print("No s'ha trobat cap contrasenya vàlida")
